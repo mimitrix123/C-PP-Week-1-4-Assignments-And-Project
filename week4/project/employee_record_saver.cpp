@@ -1,0 +1,8 @@
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
+using namespace std;
+struct Employee{int id;string name,department;double salary;};
+class EmployeeRecords{map<int,Employee> records;const string file="employees.txt";public:void add(){Employee e;cout<<"ID: ";cin>>e.id;cin.ignore();cout<<"Name: ";getline(cin,e.name);cout<<"Department: ";getline(cin,e.department);cout<<"Salary: ";cin>>e.salary;if(e.salary<0){cout<<"Invalid salary.\n";return;}records[e.id]=e;cout<<"Employee saved in memory.\n";}void display()const{if(records.empty()){cout<<"No employee records.\n";return;}for(const auto&[id,e]:records)cout<<"ID: "<<id<<" | Name: "<<e.name<<" | Department: "<<e.department<<" | Salary: "<<e.salary<<'\n';}void save(){ofstream out(file);if(!out){cout<<"Unable to open file.\n";return;}for(const auto&[id,e]:records)out<<e.id<<'|'<<e.name<<'|'<<e.department<<'|'<<e.salary<<'\n';cout<<"Records written to "<<file<<".\n";}void load(){ifstream in(file);if(!in){cout<<"No saved file found.\n";return;}records.clear();string line;while(getline(in,line)){size_t p1=line.find('|'),p2=line.find('|',p1+1),p3=line.find('|',p2+1);if(p1==string::npos||p2==string::npos||p3==string::npos)continue;Employee e{stoi(line.substr(0,p1)),line.substr(p1+1,p2-p1-1),line.substr(p2+1,p3-p2-1),stod(line.substr(p3+1))};records[e.id]=e;}cout<<"Records loaded from "<<file<<".\n";}void run(){int c;do{cout<<"\n===== EMPLOYEE RECORD SAVER =====\n1. Add Employee\n2. Display Records\n3. Save to File\n4. Load from File\n5. Exit\nChoose: ";cin>>c;switch(c){case 1:add();break;case 2:display();break;case 3:save();break;case 4:load();break;case 5:cout<<"Goodbye!\n";break;default:cout<<"Invalid choice.\n";}}while(c!=5);}};
+int main(){EmployeeRecords app;app.run();}
