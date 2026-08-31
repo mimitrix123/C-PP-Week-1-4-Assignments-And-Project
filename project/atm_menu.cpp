@@ -1,0 +1,4 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+int main(){double balance=1000.00;int choice;cout<<fixed<<setprecision(2);do{cout<<"\n===== ATM MENU =====\n1. Check Balance\n2. Deposit\n3. Withdraw\n4. Exit\nChoose an option: ";cin>>choice;switch(choice){case 1:cout<<"Current balance: $"<<balance<<'\n';break;case 2:{double amount;cout<<"Enter deposit amount: $";cin>>amount;if(amount<=0)cout<<"Deposit must be greater than zero.\n";else{balance+=amount;cout<<"Deposit successful. New balance: $"<<balance<<'\n';}break;}case 3:{double amount;cout<<"Enter withdrawal amount: $";cin>>amount;if(amount<=0)cout<<"Withdrawal must be greater than zero.\n";else if(amount>balance)cout<<"Insufficient balance.\n";else{balance-=amount;cout<<"Withdrawal successful. New balance: $"<<balance<<'\n';}break;}case 4:cout<<"Thank you for using the ATM.\n";break;default:cout<<"Invalid option. Please try again.\n";}}while(choice!=4);return 0;}
